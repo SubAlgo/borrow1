@@ -37,14 +37,14 @@
           return false;
         }
 
-        if(document.getElementById('username').value == "korn" && document.getElementById('password').value == "123456")
+        /*if(document.getElementById('username').value == "korn" && document.getElementById('password').value == "123456")
         {
           alert('Login Successed');
           return false;
         } else {
           alert('Login Failed!!!');
           return false;
-        }
+        }*/
       }
     </script>
 
@@ -66,7 +66,7 @@
     <!-- Nevigator -->
 
     <!-- Body -->
-    <form class="" action="login.php" method="post" onsubmit="javascript:return fncSubmit();">
+    <form class="" action="checklogin.php" method="post" onsubmit="javascript:return fncSubmit();">
       <table>
         <tr>
           <td>Login</td>
