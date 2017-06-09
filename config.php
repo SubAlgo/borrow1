@@ -3,7 +3,7 @@
   $hostname = "localhost";
   $username = "root";
   $password = "";
-  $database = "borrow";
+  $database = "borrow1";
 
   $connection = mysql_connect($hostname, $username, $password) or die ("ติดต่อฐานข้อมูลไม่ได้!!!");
 

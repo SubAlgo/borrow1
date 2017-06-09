@@ -11,9 +11,9 @@
   $password = mysql_real_escape_string($password);
 
 
-  $sql_checkUser = "SELECT member_id
-                    FROM member
-                    WHERE member_id = '$username' and member_password = '$password'";
+  $sql_checkUser = "SELECT admin_id
+                    FROM admin
+                    WHERE admin_id = '$username' and admin_password = '$password'";
 
   $result = mysql_query($sql_checkUser);
 
@@ -22,6 +22,8 @@
   if ($count==1) {
     $_SESSION['loggedin'] = true;
     $_SESSION['username'] = $username;
+    header( "location: http://localhost/borrow1/index.php" );
+    exit(0);
   }
 
 ?>

@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>ระบบยืม-คืนอุปกรณ์</title>
+    <title>Home</title>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -23,28 +23,13 @@
     <![endif]-->
 
     <script type="text/javascript">
-      function fncSubmit()
-      {
-        if(document.getElementById('username').value == "")
-        {
-          alert('PLEASE INPUT Username');
-          return false;
-        }
-
-        if(document.getElementById('password').value == "")
-        {
-          alert('PLEASE INPUT Password');
-          return false;
-        }
-
-        if(document.getElementById('username').value == "korn" && document.getElementById('password').value == "123456")
-        {
-          alert('Login Successed');
-          return false;
-        } else {
-          alert('Login Failed!!!');
-          return false;
-        }
+      function setdates() {
+        var s_day = document.getElementById('start_date').value;
+        var e_day = document.getElementById('end_date').value;
+        //document.getElementById("start_day").innerHTML = document.getElementById('start_date').value;
+        //document.getElementById("end_day").innerHTML = document.getElementById('end_date').value;
+        document.getElementById("show_day").innerHTML = "รายการยืมอุปกรณ์ </br> ประจำวันที่ "+ s_day + " ถึงวันที่ " + e_day;
+        return false;
       }
     </script>
 
@@ -64,40 +49,57 @@
         include "nev.php";
       ?>
     <!-- Nevigator -->
-
     <!-- Body -->
-      <?php
-        $sql = "SELECT  eqm_name, eqm_detail, eqm_total, eqm_amount
-                FROM    equiment";
-        $result = mysql_query($sql);
 
-        //$row = mysql_num_rows($result);
-        //echo "$row";
-      ?>
-      <table border="1">
-        <tr>
-          <td>ลำดับ</td>
-          <td>ชื่ออุปกรณ์</td>
-          <td>รายละเอียด</td>
-          <td>จำนวนอุปกรณ์ทั้งหมด</td>
-          <td>อุปกรณ์ที่เหลือให้ยืม</td>
-        </tr>
-        <?php
-        $r = 1;
-          while ($data = mysql_fetch_array($result)) {
-            echo "<tr>";
 
-            echo "<td> {$r} </td>
-                  <td> {$data['eqm_name']} </td>
-                  <td> {$data['eqm_detail']} </td>
-                  <td> {$data['eqm_total']} </td>
-                  <td> {$data['eqm_amount']} </td>
-            ";
-            echo "</tr>";
-            $r = $r+1;
-          }
-        ?>
+      <table align="center" border="0" width="1024">
+        <!-- container -->
+        <div align="center">
+          <tr>
+            <td>
+              <div align="center">
+                <form class="" action="" method="post" onsubmit="javascript:return setdates();">
+                  ค้นหาราย ระหว่างวันที่
+                  <input type="date" name="start_date" id="start_date" value="">
+                  ถึงวันที่
+                  <input type="date" name="end_date" id="end_date" value="">
+                  <button type="submit" name="button">ยืนยัน</button>
+                </form>
 
+
+                  <!--ประจำวันที่ <div id="start_day"></div> ถึงวันที่ <div id="end_day"></div> -->
+                  <div id="show_day"></div>
+                  <br>
+                  จำนวนทั้งหมด 0 รายการ
+                  <table class="" align="center" cellspacing="1"cellpadding="1" border="0" widtg="90%">
+                    <tbody>
+                      <tr>
+                        <td bgcolor="#FDE365" width="37">
+                          <div align="center">ลำดับ</div>
+                        </td>
+                        <td bgcolor="#FDE365" width="420">
+                          <div align="center">ชื่ออุปกรณ์</div>
+                        </td>
+                        <td bgcolor="#FDE365" width="334">
+                          <div align="center">ผู้ยืม</div>
+                        </td>
+                        <td bgcolor="#FDE365" width="122">
+                          <div align="center">วันที่ยืม</div>
+                        </td>
+                        <td bgcolor="#FDE365" width="126">
+                          <div align="center">วันที่กำหนดคืน</div>
+                        </td>
+                        <td bgcolor="#FDE365" width="11%">
+                          <div align="center">status</div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+            </td>
+          </tr>
+        </div>
+        <!-- container -->
       </table>
 
     <!-- Body -->
