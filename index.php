@@ -15,17 +15,11 @@
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
 
     <script type="text/javascript">
       function setdates() {
         var s_day = document.getElementById('start_date').value;
-        var e_day = document.getElementById('end_date').value;
+        var e_day = document.getElementById('return_date').value;
         //document.getElementById("start_day").innerHTML = document.getElementById('start_date').value;
         //document.getElementById("end_day").innerHTML = document.getElementById('end_date').value;
         document.getElementById("show_day").innerHTML = "รายการยืมอุปกรณ์ </br> ประจำวันที่ "+ s_day + " ถึงวันที่ " + e_day;
@@ -58,19 +52,36 @@
           <tr>
             <td>
               <div align="center">
-                <form class="" action="" method="post" onsubmit="javascript:return setdates();">
+                <!--<form class="" action="selectborrow.php" method="post" onsubmit="javascript:return setdates();"> -->
+                <form class="" action="selectborrow.php" method="post">
                   ค้นหาราย ระหว่างวันที่
                   <input type="date" name="start_date" id="start_date" value="">
                   ถึงวันที่
-                  <input type="date" name="end_date" id="end_date" value="">
-                  <button type="submit" name="button">ยืนยัน</button>
+                  <input type="date" name="return_date" id="return_date" value="">
+                  <!-- <button type="submit" name="button">ยืนยัน</button> -->
+                  <input type="submit" value="ยืนยัน">
                 </form>
 
 
                   <!--ประจำวันที่ <div id="start_day"></div> ถึงวันที่ <div id="end_day"></div> -->
+                  <?php
+                    $sqlSelectBorrow = "SELECT  equiment.eqm_name,
+                                                borrow.member_name,
+                                                borrow.borrow_date,
+                                                borrow.return_date,
+                                                borrow.borrow_status
+                                        FROM    borrow
+                                        LEFT JOIN equiment on borrow.eqm_id = equiment.eqm_id
+                                        ORDER BY borrow.borrow_date;
+                                        ";
+                     $result = mysql_query($sqlSelectBorrow);
+
+                    $row = mysql_num_rows($result);
+
+                   ?>
                   <div id="show_day"></div>
                   <br>
-                  จำนวนทั้งหมด 0 รายการ
+                  จำนวนทั้งหมด <?php echo $row; ?> รายการ
                   <table class="" align="center" cellspacing="1"cellpadding="1" border="0" widtg="90%">
                     <tbody>
                       <tr>
@@ -93,6 +104,29 @@
                           <div align="center">status</div>
                         </td>
                       </tr>
+
+                      <?php
+                      $r = 1;
+                      while ($data = mysql_fetch_array($result)) {
+                        echo "<tr>";
+
+                        echo "<td align='center'> {$r} </td>
+                              <td align='center'> {$data['eqm_name']} </td>
+                              <td align='center'> {$data['member_name']} </td>
+                              <td align='center'> {$data['borrow_date']} </td>
+                              <td align='center'> {$data['return_date']} </td>
+                        ";
+                        $status = $data['borrow_status'];
+                        if ($data['borrow_status'] == 0) {
+                          echo "<td align='center'> ยืม </td>";
+                        } else {
+                          echo "<td align='center'> คืนแล้ว </td>";
+                        }
+                        echo "</tr>";
+                        $r = $r+1;
+                      }
+                      ?>
+
                     </tbody>
                   </table>
               </div>

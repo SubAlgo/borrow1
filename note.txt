@@ -2,3 +2,11 @@
 1.ในหน้าแรกจะทำ select จากตาราง borrow มาแสดงโดยใช้เงื่อนไขการ select ตามช่วงวันที่ยืม
 2.ทำ nevbar 2 แบบ แบบแรกคือแบบที่ใช้ตอนยังไม่ได้ login แบบที่ 2 คือแบบที่ใช้เมื่อ login แล้ว
 3.ทำ function สำหรับการยืม
+
+
+----Insert Equiment
+INSERT INTO `borrow` (`borrow_id`, `eqm_id`, `member_name`, `borrow_date`, `Return_date`, `borrow_status`)
+VALUES
+  (NULL, '0001', 'ประยุทธ์ อังคารโอชา', '2017-06-01', NULL, '0'),
+  (NULL, '0003', 'ประยง พุธโอชา', '2017-06-02', NULL, '1'),
+  (NULL, '0009', 'กกกก กกกกกกก', '2017-06-02', NULL, '0');
