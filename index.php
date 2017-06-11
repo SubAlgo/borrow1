@@ -75,6 +75,7 @@
                                         ORDER BY borrow.borrow_date;
                                         ";
                      $result = mysql_query($sqlSelectBorrow);
+                     print_r($result);
 
                     $row = mysql_num_rows($result);
 

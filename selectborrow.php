@@ -1,10 +1,10 @@
 <?php
 include "config.php";
   $start_date = $_POST['start_date'];
-  $return_date = $_POST['start_date'];
+  $return_date = $_POST['return_date'];
 
   //echo $start_date;
-  $sql = "SELECT  equiment.eqm_name,
+/*  $stmt = "SELECT  equiment.eqm_name,
                               borrow.member_name,
                               borrow.borrow_date,
                               borrow.return_date,
@@ -13,14 +13,32 @@ include "config.php";
                       LEFT JOIN equiment
                       ON borrow.eqm_id = equiment.eqm_id
                       where borrow.borrow_date BETWEEN 	&#39;". $start_date ."&#39; AND 	&#39;".$return_date ."&#39;
-                      ;
+
                       ";
+                      */
+    $stmt  =  "SELECT equiment.eqm_name,
+                      borrow.member_name,
+                      borrow.borrow_date,
+                      borrow.return_date,
+                      borrow.borrow_status
+                FROM borrow
+                LEFT JOIN equiment
+                ON borrow.eqm_id = equiment.eqm_id
+                where borrow.borrow_date BETWEEN \"2017-06-01\" AND \"2017-06-01\"";
+
+    $stmt1 =     "SELECT equiment.eqm_name, borrow.member_name, borrow.borrow_date, borrow.return_date, borrow.borrow_status
+                FROM borrow
+                LEFT JOIN equiment
+                ON borrow.eqm_id = equiment.eqm_id
+                where borrow.borrow_date BETWEEN  \"".$start_date."\" AND \"". $return_date."\"";
 
 
-                      echo $sql;
-   $result = mysql_query($sql);
+                      echo $stmt1;
+   $result = mysql_query($stmt1);
 
   // $_SESSION['selectborrow'] = $result;
+
+
 
   $row = mysql_num_rows($result);
   ?>
@@ -58,7 +76,7 @@ include "config.php";
               <td align='center'> {$data['borrow_date']} </td>
               <td align='center'> {$data['return_date']} </td>
         ";
-        $status = $data1['borrow_status'];
+
         if ($data['borrow_status'] == 0) {
           echo "<td align='center'> ยืม </td>";
         } else {
