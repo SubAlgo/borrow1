@@ -75,7 +75,23 @@
                                         ORDER BY borrow.borrow_date;
                                         ";
                      $result = mysql_query($sqlSelectBorrow);
-                     print_r($result);
+                     print_r($_SESSION['resultBorrowStatement']);
+
+                     foreach (mysql_fetch_array($_SESSION['resultBorrowStatement']) as $value) {
+                       echo $value;
+                       echo "<br>";
+                     }
+
+
+                     /*
+                     print_r($_SESSION['resultBorrowStatement']);
+                     echo "<br>";
+                     echo "---------------------------";
+                     echo "<br>";
+                     $_SESSION['resultBorrowStatement'] = "";
+                     print_r($_SESSION['resultBorrowStatement']);
+                     */
+
 
                     $row = mysql_num_rows($result);
 
@@ -107,6 +123,7 @@
                       </tr>
 
                       <?php
+
                       $r = 1;
                       while ($data = mysql_fetch_array($result)) {
                         echo "<tr>";

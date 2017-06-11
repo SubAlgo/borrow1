@@ -1,22 +1,12 @@
 <?php
 include "config.php";
-  $start_date = $_POST['start_date'];
-  $return_date = $_POST['return_date'];
+   //+++++ สร้างตัวแปรมาเก็บค่าจาก session ที่ถูกส่งมาจากหน้า index.php +++++
+   $start_date = $_POST['start_date'];
+   $return_date = $_POST['return_date'];
+   //----- สร้างตัวแปรมาเก็บค่าจาก session ที่ถูกส่งมาจากหน้า index.php -----
 
-  //echo $start_date;
-/*  $stmt = "SELECT  equiment.eqm_name,
-                              borrow.member_name,
-                              borrow.borrow_date,
-                              borrow.return_date,
-                              borrow.borrow_status
-                      FROM    borrow
-                      LEFT JOIN equiment
-                      ON borrow.eqm_id = equiment.eqm_id
-                      where borrow.borrow_date BETWEEN 	&#39;". $start_date ."&#39; AND 	&#39;".$return_date ."&#39;
-
-                      ";
-                      */
-    $stmt  =  "SELECT equiment.eqm_name,
+  /*
+  $stmt  =  "SELECT equiment.eqm_name,
                       borrow.member_name,
                       borrow.borrow_date,
                       borrow.return_date,
@@ -25,23 +15,45 @@ include "config.php";
                 LEFT JOIN equiment
                 ON borrow.eqm_id = equiment.eqm_id
                 where borrow.borrow_date BETWEEN \"2017-06-01\" AND \"2017-06-01\"";
+  */
+   //+++++ SQL Statement สำหรับ select ผลลัพธ์ รายการการยืม(borrow) โดยมีเงื่อนไขตามช่วงเวลาที่เลือก +++++
+   $stmt1 =   "SELECT  equiment.eqm_name,
+                        borrow.member_name,
+                        borrow.borrow_date,
+                        borrow.return_date,
+                        borrow.borrow_status
+               FROM borrow
+               LEFT JOIN equiment
+               ON borrow.eqm_id = equiment.eqm_id
+               WHERE borrow.borrow_date BETWEEN  \"".$start_date."\" AND \"". $return_date."\"";
 
-    $stmt1 =     "SELECT equiment.eqm_name, borrow.member_name, borrow.borrow_date, borrow.return_date, borrow.borrow_status
-                FROM borrow
-                LEFT JOIN equiment
-                ON borrow.eqm_id = equiment.eqm_id
-                where borrow.borrow_date BETWEEN  \"".$start_date."\" AND \"". $return_date."\"";
-
-
-                      echo $stmt1;
+                      //echo $stmt1;
    $result = mysql_query($stmt1);
+   //----- SQL Statement สำหรับ select ผลลัพธ์ รายการการยืม(borrow) โดยมีเงื่อนไขตามช่วงเวลาที่เลือก -----
 
-  // $_SESSION['selectborrow'] = $result;
+   //+++++ เก็บผลลัพธ์ของการ query โดยแปลงเป็น Array แล้วเก็บลง Session เพื่อนำไปใช้แสดงผลที่หน้า index.php +++++
+
+   $_SESSION['resultBorrowStatement'] = mysql_fetch_array($result);
+   //$_SESSION['resultBorrowStatement'] = $result;
+   //----- เก็บผลลัพธ์ของการ query เป็น Array ลง Session เพื่อนำไปใช้แสดงผลที่หน้า index.php -----
+
+    //print_r($_SESSION['resultBorrowStatement']);
+  
 
 
 
-  $row = mysql_num_rows($result);
-  ?>
+   //+++++Redirect to index.php+++++
+
+   $host  = $_SERVER['HTTP_HOST'];
+   $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+   $indexPage = 'index.php';
+   //header("location: http://$host$uri/$indexPage");
+
+   //exit(0);
+   //-----Redirect to index.php-----
+
+  //$row = mysql_num_rows($result);
+?>
   <table class="" align="center" cellspacing="1"cellpadding="1" border="0" widtg="90%">
     <tbody>
       <tr>
