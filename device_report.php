@@ -71,30 +71,33 @@
 
       ?>
 
-      <table border="1" aling='center'>
-        <tr>
-          <td>รายการอุปกรณ์ที่มี</td>
+      <table class="" align="center" cellspacing="1"cellpadding="1" border="0" widtg="90%">
+      
+
+        <tr align="center">
+          <td colspan="6">รายการอุปกรณ์ที่มี</td>
+        </tr>
+
+        <tr align="center">
+          <td td colspan="6">จำนวนทั้งหมด <?php echo "$row" ?> รายการ</td>
         </tr>
         <tr>
-          <td>จำนวนทั้งหมด <?php echo "$row" ?> รายการ</td>
-        </tr>
-        <tr>
-          <td>ลำดับ</td>
-          <td>ชื่ออุปกรณ์</td>
-          <td>รายละเอียด</td>
-          <td>จำนวนอุปกรณ์ทั้งหมด</td>
-          <td>อุปกรณ์ที่เหลือให้ยืม</td>
+          <th bgcolor="#FDE365">ลำดับ</th>
+          <th bgcolor="#FDE365">ชื่ออุปกรณ์</th>
+          <th bgcolor="#FDE365">รายละเอียด</th>
+          <th bgcolor="#FDE365">จำนวนอุปกรณ์ทั้งหมด</th>
+          <th bgcolor="#FDE365">อุปกรณ์ที่เหลือให้ยืม</th>
         </tr>
         <?php
         $r = 1;
           while ($data = mysql_fetch_array($result)) {
             echo "<tr>";
 
-            echo "<td> {$r} </td>
-                  <td> {$data['eqm_name']} </td>
-                  <td> {$data['eqm_detail']} </td>
-                  <td> {$data['eqm_total']} </td>
-                  <td> {$data['eqm_amount']} </td>
+            echo "<td align='center'> {$r} </td>
+                  <td align='center'> {$data['eqm_name']} </td>
+                  <td align='center'> {$data['eqm_detail']} </td>
+                  <td align='center'> {$data['eqm_total']} </td>
+                  <td align='center'> {$data['eqm_amount']} </td>
             ";
             echo "</tr>";
             $r = $r+1;

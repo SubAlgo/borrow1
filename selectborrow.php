@@ -25,9 +25,11 @@ include "config.php";
                FROM borrow
                LEFT JOIN equiment
                ON borrow.eqm_id = equiment.eqm_id
-               WHERE borrow.borrow_date BETWEEN  \"".$start_date."\" AND \"". $return_date."\"";
+               WHERE borrow.borrow_date BETWEEN  \"".$start_date."\" AND \"". $return_date."\"
+               || borrow.borrow_date BETWEEN  \"". $return_date."\"  AND \"".$start_date."\"
+               ";
 
-                      //echo $stmt1;
+                      echo $stmt1;
    $result = mysql_query($stmt1);
    $row = mysql_num_rows($result);
    echo "Row result = ". $row;
