@@ -29,8 +29,9 @@ include "config.php";
 
                       //echo $stmt1;
    $result = mysql_query($stmt1);
-   $row = mysql_num_rows($result);
-   echo "Row result = ". $row;
+
+   //$row = mysql_num_rows($result);
+   //echo "Row result = ". $row;
    //----- SQL Statement สำหรับ select ผลลัพธ์ รายการการยืม(borrow) โดยมีเงื่อนไขตามช่วงเวลาที่เลือก -----
 
    //+++++ เก็บผลลัพธ์ของการ query โดยแปลงเป็น Array แล้วเก็บลง Session เพื่อนำไปใช้แสดงผลที่หน้า index.php +++++
@@ -42,11 +43,13 @@ include "config.php";
     //print_r($_SESSION['resultBorrowStatement']);
 
 
+
+
    //+++++Redirect to index.php+++++
 
    $host  = $_SERVER['HTTP_HOST'];
    $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-   $indexPage = 'index.php';
+   $indexPage = 'index1.php';
    //header("location: http://$host$uri/$indexPage");
 
    //exit(0);

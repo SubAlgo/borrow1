@@ -53,7 +53,7 @@
             <td>
               <div align="center">
                 <!--<form class="" action="selectborrow.php" method="post" onsubmit="javascript:return setdates();"> -->
-                <form class="" action="selectborrow.php" method="post">
+                <form class="" action="selectborrow1.php" method="post">
                   ค้นหาราย ระหว่างวันที่
                   <input type="date" name="start_date" id="start_date" value="">
                   ถึงวันที่
@@ -65,6 +65,17 @@
 
                   <!--ประจำวันที่ <div id="start_day"></div> ถึงวันที่ <div id="end_day"></div> -->
                   <?php
+                  /*$stmt1 =   "SELECT  equiment.eqm_name,
+                                       borrow.member_name,
+                                       borrow.borrow_date,
+                                       borrow.return_date,
+                                       borrow.borrow_status
+                              FROM borrow
+                              LEFT JOIN equiment
+                              ON borrow.eqm_id = equiment.eqm_id
+                              WHERE borrow.borrow_date BETWEEN  \"".$start_date."\" AND \"". $return_date."\"";
+                              */
+
                     $sqlSelectBorrow = "SELECT  equiment.eqm_name,
                                                 borrow.member_name,
                                                 borrow.borrow_date,
@@ -75,14 +86,8 @@
                                         ORDER BY borrow.borrow_date;
                                         ";
                      $result = mysql_query($sqlSelectBorrow);
-                    // print_r($_SESSION['resultBorrowStatement']);
 
-                     /*
-                     foreach (mysql_fetch_array($_SESSION['resultBorrowStatement']) as $value) {
-                       echo $value;
-                       echo "<br>";
-                     }
-                     */
+
 
 
                      /*
