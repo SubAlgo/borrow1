@@ -53,7 +53,8 @@
             <td>
               <div align="center">
                 <!--<form class="" action="selectborrow.php" method="post" onsubmit="javascript:return setdates();"> -->
-                <form class="" action="selectborrow1.php" method="post">
+                <!-- <form class="" action="selectborrow1.php" method="post"> -->
+                <form class="" action="index1.php" method="post" >
                   ค้นหาราย ระหว่างวันที่
                   <input type="date" name="start_date" id="start_date" value="">
                   ถึงวันที่
@@ -65,42 +66,59 @@
 
                   <!--ประจำวันที่ <div id="start_day"></div> ถึงวันที่ <div id="end_day"></div> -->
                   <?php
-                  /*$stmt1 =   "SELECT  equiment.eqm_name,
-                                       borrow.member_name,
-                                       borrow.borrow_date,
-                                       borrow.return_date,
-                                       borrow.borrow_status
-                              FROM borrow
-                              LEFT JOIN equiment
-                              ON borrow.eqm_id = equiment.eqm_id
-                              WHERE borrow.borrow_date BETWEEN  \"".$start_date."\" AND \"". $return_date."\"";
-                              */
+                  $start_date = null;
+                  $return_date = null;
 
-                    $sqlSelectBorrow = "SELECT  equiment.eqm_name,
-                                                borrow.member_name,
-                                                borrow.borrow_date,
-                                                borrow.return_date,
-                                                borrow.borrow_status
-                                        FROM    borrow
-                                        LEFT JOIN equiment on borrow.eqm_id = equiment.eqm_id
-                                        ORDER BY borrow.borrow_date;
-                                        ";
-                     $result = mysql_query($sqlSelectBorrow);
+                  if(!isset($_POST['start_date']))
+                  {
+                    $_POST['start_date'] = null;
+                  }
+                  if(!isset($_POST['return_date']))
+                  {
+                    $_POST['return_date'] = null;
+                  }
 
 
+                  echo 'reset START_DATE'.$start_date . '<br>';
+                  echo 'reset START_DATE'.$return_date. '<br>';
+                  echo 'reset _POST[START_DATE]'.$_POST['start_date'] . '<br>';
+                  echo 'reset _POST[RETURN_DATE]'.$_POST['return_date'] . '<br>';
+
+                  if(!isset($_POST['start_date']))
+                  {
+                    return;
+                  }
+                  else
+                  {
+                    $start_date = $_POST['start_date'];
+                    $return_date = $_POST['return_date'];
+                  }
+                  echo $start_date . '<br>';
+                  echo $return_date;
 
 
-                     /*
-                     print_r($_SESSION['resultBorrowStatement']);
-                     echo "<br>";
-                     echo "---------------------------";
-                     echo "<br>";
-                     $_SESSION['resultBorrowStatement'] = "";
-                     print_r($_SESSION['resultBorrowStatement']);
-                     */
 
+                  if(!isset($start_date))
+                  {
+                    echo "ตัวแปลยังไม่กำหนดค่า";
+                  }
+                  else
+                  {
+                    $stmt1 =   "SELECT  equiment.eqm_name,
+                                         borrow.member_name,
+                                         borrow.borrow_date,
+                                         borrow.return_date,
+                                         borrow.borrow_status
+                                FROM borrow
+                                LEFT JOIN equiment
+                                ON borrow.eqm_id = equiment.eqm_id
+                                WHERE borrow.borrow_date BETWEEN  \"".$start_date."\" AND \"". $return_date."\"
+                                || borrow.borrow_date BETWEEN  \"". $return_date."\"  AND \"".$start_date."\"
+                                ";
 
+                    $result = mysql_query($stmt1);
                     $row = mysql_num_rows($result);
+                  }
 
                    ?>
                   <div id="show_day"></div>
@@ -150,6 +168,9 @@
                         echo "</tr>";
                         $r = $r+1;
                       }
+
+                      $_POST['start_date'] = null;
+                      $_POST['return_date'] = null;
                       ?>
 
                     </tbody>
