@@ -161,24 +161,24 @@
                           <table class='' align='center' cellspacing='1'cellpadding='1' border='0' widtg='90%''>
                             <tbody>
                               <tr>
-                                  <td bgcolor='#FDE365' width='37'>
+                                  <th bgcolor='#FDE365' width='37'>
                                     <div align='center'>ลำดับ</div>
-                                  </td>
-                                  <td bgcolor='#FDE365' width='420'>
+                                  </th>
+                                  <th bgcolor='#FDE365' width='420'>
                                     <div align='center'>ชื่ออุปกรณ์</div>
-                                  </td>
-                                  <td bgcolor='#FDE365' width='334'>
+                                  </th>
+                                  <th bgcolor='#FDE365' width='334'>
                                     <div align='center'>ผู้ยืม</div>
-                                  </td>
-                                  <td bgcolor='#FDE365' width='122'>
+                                  </th>
+                                  <th bgcolor='#FDE365' width='122'>
                                     <div align='center'>วันที่ยืม</div>
-                                  </td>
-                                  <td bgcolor='#FDE365' width='126'>
+                                  </th>
+                                  <th bgcolor='#FDE365' width='126'>
                                     <div align='center'>วันที่กำหนดคืน</div>
-                                  </td>
-                                  <td bgcolor='#FDE365' width='11%'>
+                                  </th>
+                                  <th bgcolor='#FDE365' width='11%'>
                                     <div align='center'>status</div>
-                                  </td>
+                                  </th>
                               </tr>
                          ";
                    }
@@ -218,7 +218,7 @@
                   ----------------------------------------
                   */
                 ?>
-                
+
                       </tr>
                     </tbody>
                   </table>
