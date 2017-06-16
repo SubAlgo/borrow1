@@ -52,8 +52,7 @@
           <tr>
             <td>
               <div align="center">
-                <!--<form class="" action="selectborrow.php" method="post" onsubmit="javascript:return setdates();"> -->
-                <form class="" action="selectborrow.php" method="post">
+                <form class="" action="index.php" method="post" >
                   ค้นหาราย ระหว่างวันที่
                   <input type="date" name="start_date" id="start_date" value="">
                   ถึงวันที่
@@ -62,91 +61,165 @@
                   <input type="submit" value="ยืนยัน">
                 </form>
 
+                <?php
+                  // +++++ กำหนดตัวแปลเพื่อให้เป็น global variable +++++
+                  $start_date = null;
+                  $return_date = null;
+                  $gResult = "";
+                  // ----- กำหนดตัวแปลเพื่อให้เป็น global variable -----
 
-                  <!--ประจำวันที่ <div id="start_day"></div> ถึงวันที่ <div id="end_day"></div> -->
-                  <?php
-                    $sqlSelectBorrow = "SELECT  equiment.eqm_name,
-                                                borrow.member_name,
-                                                borrow.borrow_date,
-                                                borrow.return_date,
-                                                borrow.borrow_status
-                                        FROM    borrow
-                                        LEFT JOIN equiment on borrow.eqm_id = equiment.eqm_id
-                                        ORDER BY borrow.borrow_date;
-                                        ";
-                     $result = mysql_query($sqlSelectBorrow);
-                    // print_r($_SESSION['resultBorrowStatement']);
-
-                     /*
-                     foreach (mysql_fetch_array($_SESSION['resultBorrowStatement']) as $value) {
-                       echo $value;
-                       echo "<br>";
-                     }
-                     */
+                  // +++++ ตรวจสอบ $_POST['start_date'] ถ้ามีค่าให้กำหนดค่าให้ตัวแปร $start_date +++++
+                  if(!isset($_POST['start_date']))
+                  {
+                    echo "";
+                  } else {
+                    $start_date = $_POST['start_date'];
+                  }
+                  // ----- ตรวจสอบ $_POST['start_date'] ถ้ามีค่าให้กำหนดค่าให้ตัวแปร $start_date -----
 
 
-                     /*
-                     print_r($_SESSION['resultBorrowStatement']);
-                     echo "<br>";
-                     echo "---------------------------";
-                     echo "<br>";
-                     $_SESSION['resultBorrowStatement'] = "";
-                     print_r($_SESSION['resultBorrowStatement']);
-                     */
+                  // +++++ ตรวจสอบ $_POST['return_date'] ถ้ามีค่าให้กำหนดค่าให้ตัวแปร $return_date +++++
+                  if(!isset($_POST['return_date']))
+                  {
+                    echo "";
+                  } else {
+                    $return_date = $_POST['return_date'];
+                  }
+                  // ----- ตรวจสอบ $_POST['return_date'] ถ้ามีค่าให้กำหนดค่าให้ตัวแปร $return_date -----
 
 
+                  // +++++ กำหนดค่าตัวแปร สำหรับการ SELECT ข้อมูล +++++
+                  if(empty($start_date) && empty($return_date))
+                  {
+                    echo "จำนวนทั้งหมด 0 รายการ<br>" ;
+                    createHeadTable();
+                  }
+                  elseif(!empty($start_date) && !empty($return_date))
+                  {
+                    QuerySQL($start_date, $return_date);
+                  }
+                  elseif(!empty($start_date) && empty($return_date))
+                  {
+                    $return_date = $start_date;
+                    QuerySQL($start_date, $return_date);
+                  }
+                  elseif(empty($start_date) && !empty($return_date))
+                  {
+                    $start_date = $return_date;
+                    QuerySQL($start_date, $return_date);
+                  }
+                  // ----- กำหนดค่าตัวแปร สำหรับการ SELECT ข้อมูล -----
+
+
+                  // +++++ Function สำหรับการ Query select ข้อมูล +++++
+                  function QuerySQL($start_date1, $return_date1)
+                  {
+                    $stmt1 =   "SELECT  equiment.eqm_name,
+                                         borrow.member_name,
+                                         borrow.borrow_date,
+                                         borrow.return_date,
+                                         borrow.borrow_status
+                                FROM borrow
+                                LEFT JOIN equiment
+                                ON borrow.eqm_id = equiment.eqm_id
+                                WHERE borrow.borrow_date BETWEEN  \"".$start_date1."\" AND \"". $return_date1."\"
+                                || borrow.borrow_date BETWEEN  \"". $return_date1."\"  AND \"".$start_date1."\"
+                                ";
+
+                    $result = mysql_query($stmt1);
                     $row = mysql_num_rows($result);
+                    global $gResult;
+                    $gResult = $result;
 
-                   ?>
-                  <div id="show_day"></div>
-                  <br>
-                  จำนวนทั้งหมด <?php echo $row; ?> รายการ
-                  <table class="" align="center" cellspacing="1"cellpadding="1" border="0" widtg="90%">
-                    <tbody>
-                      <tr>
-                        <td bgcolor="#FDE365" width="37">
-                          <div align="center">ลำดับ</div>
-                        </td>
-                        <td bgcolor="#FDE365" width="420">
-                          <div align="center">ชื่ออุปกรณ์</div>
-                        </td>
-                        <td bgcolor="#FDE365" width="334">
-                          <div align="center">ผู้ยืม</div>
-                        </td>
-                        <td bgcolor="#FDE365" width="122">
-                          <div align="center">วันที่ยืม</div>
-                        </td>
-                        <td bgcolor="#FDE365" width="126">
-                          <div align="center">วันที่กำหนดคืน</div>
-                        </td>
-                        <td bgcolor="#FDE365" width="11%">
-                          <div align="center">status</div>
-                        </td>
-                      </tr>
+                    echo "รายการยืมอุปกรณ์<br>";
+                    echo "ประจำวันที่ ". $start_date1. " ถึงวันที่ ". $return_date1 . "<br>";
+                    echo "จำนวนทั้งหมด " . $row . " รายการ<br>";
+                    createTable();
+                  }
 
-                      <?php
+                  /*
+                  ++++++++++++++++++++++++++++++++++++++++
+                  +++++ Function สำหรับการ Query ข้อมูล +++++
+                  ++++++++++++++++++++++++++++++++++++++++
+                  */
 
-                      $r = 1;
-                      while ($data = mysql_fetch_array($result)) {
-                        echo "<tr>";
+                  // +++++ กลุ่ม Function สำหรับการสร้างตารางแล้วแสดงผลข้อมูล +++++
 
-                        echo "<td align='center'> {$r} </td>
-                              <td align='center'> {$data['eqm_name']} </td>
-                              <td align='center'> {$data['member_name']} </td>
-                              <td align='center'> {$data['borrow_date']} </td>
-                              <td align='center'> {$data['return_date']} </td>
-                        ";
-                        $status = $data['borrow_status'];
-                        if ($data['borrow_status'] == 0) {
-                          echo "<td align='center'> ยืม </td>";
-                        } else {
-                          echo "<td align='center'> คืนแล้ว </td>";
-                        }
-                        echo "</tr>";
-                        $r = $r+1;
+                    // +++++ FUNCTION สำหรับสร้างตารางผลลัพธ์ +++++
+                    // ***** Description {สร้างตารางผลลัพธ์ โดยเรียกใช้ func [createHeadTable(ส่วนหัวตาราง), showResult(ส่วน list ผลลัพธ์) ] }*****
+                    function createTable()
+                    {
+                     createHeadTable();
+                     showResult();
+                   }
+                    // ----- FUNCTION สำหรับสร้างตารางผลลัพธ์ -----
+
+                    // +++++ {สร้าง Header ของตาราง} +++++
+                    function createHeadTable()
+                    {
+                    echo "
+                          <table class='' align='center' cellspacing='1'cellpadding='1' border='0' widtg='90%''>
+                            <tbody>
+                              <tr>
+                                  <td bgcolor='#FDE365' width='37'>
+                                    <div align='center'>ลำดับ</div>
+                                  </td>
+                                  <td bgcolor='#FDE365' width='420'>
+                                    <div align='center'>ชื่ออุปกรณ์</div>
+                                  </td>
+                                  <td bgcolor='#FDE365' width='334'>
+                                    <div align='center'>ผู้ยืม</div>
+                                  </td>
+                                  <td bgcolor='#FDE365' width='122'>
+                                    <div align='center'>วันที่ยืม</div>
+                                  </td>
+                                  <td bgcolor='#FDE365' width='126'>
+                                    <div align='center'>วันที่กำหนดคืน</div>
+                                  </td>
+                                  <td bgcolor='#FDE365' width='11%'>
+                                    <div align='center'>status</div>
+                                  </td>
+                              </tr>
+                         ";
+                   }
+                   // ----- {สร้าง Header ของตาราง} -----
+
+                   // +++++ {แสดงผลลัพธ์จาการ fetch ผลลัพธ์} +++++
+                   function showResult()
+                   {
+                    global $gResult;
+                    $r = 1;
+                    while ($data = mysql_fetch_array($gResult)) {
+                      echo "<tr>";
+
+                      echo "<td align='center'> {$r} </td>
+                            <td align='center'> {$data['eqm_name']} </td>
+                            <td align='center'> {$data['member_name']} </td>
+                            <td align='center'> {$data['borrow_date']} </td>
+                            <td align='center'> {$data['return_date']} </td>
+                      ";
+                      $status = $data['borrow_status'];
+                      if ($data['borrow_status'] == 0) {
+                        echo "<td align='center'> ยืม </td>";
+                      } else {
+                        echo "<td align='center'> คืนแล้ว </td>";
                       }
-                      ?>
+                      echo "</tr>";
+                      $r = $r+1;
+                    }
+                  }
+                    // ----- {แสดงผลลัพธ์จาการ fetch ผลลัพธ์} -----
 
+                  // ----- กลุ่ม Function สำหรับการสร้างตารางแล้วแสดงผลข้อมูล -----
+
+                  /*
+                  ----------------------------------------
+                  ----- Function สำหรับการ Query ข้อมูล -----
+                  ----------------------------------------
+                  */
+                ?>
+                
+                      </tr>
                     </tbody>
                   </table>
               </div>
