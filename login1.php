@@ -66,28 +66,76 @@
     <!-- Nevigator -->
 
     <!-- Body -->
-    <table align="center" border="0" width="1024">
-      <div align="center">
-      <form class="" action="checklogin.php" method="post" onsubmit="javascript:return fncSubmit();">
-        <table>
-          <tr>
-            <td>Login</td>
-          </tr>
-          <tr>
-            <td>Username: </td>
-            <td><input type="text" name="username" id="username" value=""></td>
-          </tr>
-          <tr>
-            <td>Password: </td>
-            <td><input type="password" name="password" id="password" value=""></td>
-          </tr>
-          <tr>
-            <td><button type="submit" name="button">Submit</button></td>
-          </tr>
-        </table>
+    <table align="center" border="1" width="30%">
+      <form class="" action="login1.php" method="post" onsubmit="javascript:return fncSubmit();">
+        <tr align='center'>
+          <td colspan="2"><p>Login</p></td>
+        </tr>
+        <tr>
+          <td width='30%'>Username :</td>
+          <td><input type="text" name="username" id='username' value=""></td>
+        </tr>
+        <tr>
+          <td witdth='30%'>Password :</td>
+          <td><input type="password" name="password" id='password' value=""></td>
+        </tr>
+        <tr align='center'>
+          <td colspan="2"><input type="submit" value="submit"></td>
+        </tr>
       </form>
-    </div>
     </table>
+
+
+    <?php
+      $_SESSION['username'] = '';
+      $userId = '';
+      $pass = '';
+      $row = '';
+
+
+
+
+      if(isset($_POST['username']))
+      {
+        $userId = $_POST['username'];
+        echo "_POST['username'] = ". $_POST['username'] . '<br>';
+      }
+
+      if(isset($_POST['password']))
+      {
+        $pass = $_POST['password'];
+        echo "_POST['password'] = ". $_POST['password'] . '<br>';
+      }
+
+      if(!empty($userId) && !empty($pass))
+      {
+        $str = "SELECT admin_name, admin_surname
+                FROM admin
+                WHERE admin_id = '". $userId . "' and admin_password = '" . $pass. "'";
+        $result = mysql_query($str);
+        $row = mysql_num_rows($result);
+        echo "$str <br>";
+        //echo "SQL_ROW = " . $row . " <br>";
+      }
+
+      if($row != 0)
+      {
+        echo "SQL_ROW (in if) = " . $row . " <br>";
+        //สร้าง session มาเก็บค่าไว้สำหรับ auth
+      }
+      else {
+        echo "<script> alert ('รหัสไม่ถูกต้อง'); </script>";
+      }
+
+
+
+      $_POST['username'] = '';
+      $_POST['password']= '';
+      echo "Reset Value <br>";
+      echo "_POST['username'] = ". $_POST['username'] . '<br>';
+      echo "_POST['password'] = ". $_POST['password'] . '<br>';
+
+    ?>
 
     <!-- Body -->
 
